@@ -1,6 +1,6 @@
 # MiikaCord
 
-Chat premium estilo Discord com servidores, canais de texto e voz, DMs, compartilhamento de tela, imagens, cargos, presença online, notificações e reações.
+Chat premium estilo Discord com servidores, canais de texto e voz, DMs, compartilhamento de tela, imagens, cargos, presença online, notificações, reações e login com Google.
 
 ## Rodar
 
@@ -10,22 +10,34 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
-Abra http://localhost:3000
+## Login com Google
+
+1. No Google Cloud Console, crie um **OAuth client ID** do tipo **Web application**.
+2. Em **Authorized redirect URIs**, adicione:
+
+```text
+https://lswkrqsfpcwvhupasmlr.supabase.co/auth/v1/callback
+```
+
+3. No Supabase, vá em **Authentication → Providers → Google**.
+4. Ative o Google e cole o **Client ID** e o **Client Secret** do Google Cloud.
+5. Em **Authentication → URL Configuration**, adicione:
+
+```text
+http://localhost:3000/auth/callback
+```
+
+6. Salve e teste o botão **Entrar com Google** no MiikaCord.
 
 ## Recursos
 
-- Login e cadastro por e-mail
+- Login por e-mail e Google
 - Servidores com convites
 - Canais de texto e voz
 - Compartilhamento de tela
-- Mensagens diretas por @usuario
+- DMs por @usuario
 - Upload de avatar e imagens
-- Cargos owner, admin e moderator
-- Exclusão de mensagens por staff
-- Indicador online
+- Cargos e moderação
+- Presença online
 - Menções e notificações
 - Reações com emoji
-
-## Supabase
-
-Desative **Confirm email** em **Authentication > Providers > Email** para testar o cadastro imediatamente.

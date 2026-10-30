@@ -41,6 +41,15 @@ export default function LoginPage() {
     }
   }
 
+  async function loginWithGoogle() {
+    setError('');
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/auth/callback` }
+    });
+    if (error) setError(error.message);
+  }
+
   return (
     <main className="auth-page">
       <div className="auth-card">
@@ -51,6 +60,14 @@ export default function LoginPage() {
             <p>Sua comunidade, do jeito mais bonito.</p>
           </div>
         </div>
+
+        <button type="button" className="google-btn" onClick={loginWithGoogle}>
+          <span className="google-icon">G</span>
+          Entrar com Google
+        </button>
+
+        <div className="divider"><span>ou continue com e-mail</span></div>
+
         <form onSubmit={submit}>
           {mode === 'signup' && (
             <div className="field">
@@ -67,8 +84,11 @@ export default function LoginPage() {
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} minLength={6} required />
           </div>
           {error && <p className="error">{error}</p>}
-          <button className="btn" disabled={loading}>{loading ? 'Carregando...' : mode === 'signin' ? 'Entrar' : 'Criar conta'}</button>
+          <button className="btn" disabled={loading}>
+            {loading ? 'Carregando...' : mode === 'signin' ? 'Entrar' : 'Criar conta'}
+          </button>
         </form>
+
         <p style={{ textAlign: 'center', marginTop: 18, color: 'var(--muted)', fontSize: 14 }}>
           {mode === 'signin' ? 'Não tem conta?' : 'Já tem conta?'}{' '}
           <button type="button" onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')} style={{ background: 'none', color: 'var(--brand)', fontWeight: 600 }}>
